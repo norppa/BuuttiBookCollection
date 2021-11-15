@@ -4,6 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+    "start": "env NODE_ENV=production node server.js",
     "dev": "env NODE_ENV=development nodemon server.js",
     "test": "env NODE_ENV=test mocha --exit"
   },
@@ -14,6 +15,7 @@
     "chai": "^4.3.4",
     "chai-http": "^4.3.0",
     "config": "^3.3.6",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "mocha": "^9.1.3"
   },

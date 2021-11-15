@@ -1,11 +1,15 @@
 const express = require('express')
 const config = require('config')
+const cors = require('cors')
 
 const PORT = config.get('port')
 const db = require('better-sqlite3')(config.get('database'))
 
 const server = express()
+server.use(cors())
 server.use(express.json())
+
+server.use('/', express.static('./frontend/dist'))
 
 server.get('/books', (req, res) => {
     const allBooks = db.prepare('SELECT * FROM books').all()

@@ -1,4 +1,4 @@
 {
-    "port": 3000,
-    "database": "./database/database.db"
+    "port": 80,
+    "database": "./database/production.db"
 }
