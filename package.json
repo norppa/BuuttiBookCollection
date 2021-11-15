@@ -9,6 +9,8 @@
   "author": "Jari Haavisto",
   "license": "ISC",
   "dependencies": {
+    "better-sqlite3": "^7.4.4",
+    "config": "^3.3.6",
     "express": "^4.17.1"
   },
   "devDependencies": {
