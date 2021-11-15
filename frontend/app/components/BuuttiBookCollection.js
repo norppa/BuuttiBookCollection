@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react'
+import { ToastContainer, toast } from 'react-toastify'
+
 import BookForm from './BookForm'
 
 import './BuuttiBookCollection.css'
+import 'react-toastify/dist/ReactToastify.css'
 
 const api = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/books' : 'books'
 const noBook = { id: null, title: '', author: '', description: '' }
@@ -16,8 +19,19 @@ const BuuttiBookCollection = (props) => {
     }, [])
 
     const initialize = async () => {
-        const result = await fetch(api).then(result => result.json())
-        setBooks(result)
+        const result = await fetch(api).catch(error => error)
+        if (result.status !== 200) {
+            return showError('Could not reach the backend', result)
+        }
+
+        const books = await result.json()
+
+        setBooks(books)
+    }
+
+    const showError = (message, error) => {
+        toast.error(message)
+        console.error(error)
     }
 
     const actions = {
@@ -28,13 +42,13 @@ const BuuttiBookCollection = (props) => {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(book)
-            })
+            }).catch(error => error)
             if (response.status === 200) {
                 const newBook = await response.json()
                 setBooks(prevBooks => prevBooks.concat(newBook))
                 setSelectedBook(noBook)
             } else {
-                console.error('Failed to save the book')
+                showError('Failed to add a new book to the database', response)
             }
         },
         update: async (book) => {
@@ -44,7 +58,7 @@ const BuuttiBookCollection = (props) => {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(book)
-            })
+            }).catch(error => error)
             if (response.status === 200) {
                 const updatedBook = await response.json()
                 const newBooks = books.map(item => {
@@ -57,18 +71,18 @@ const BuuttiBookCollection = (props) => {
                 setBooks(newBooks)
                 setSelectedBook(noBook)
             } else {
-                console.error('Failed to update the book')
+                showError('Failed to update the book to the database')
             }
         },
         delete: async (book) => {
             const response = await fetch(api + '/' + book.id, {
                 method: 'DELETE'
-            })
+            }).catch(error => error)
             if (response.status === 204) {
                 setBooks(prevBooks => prevBooks.filter(item => item.id !== book.id))
                 setSelectedBook(noBook)
             } else {
-                console.error('Faield to delete the book')
+                showError('Failedd to delete the book from the database')
             }
         },
         clearSelection: () => {
@@ -100,6 +114,7 @@ const BuuttiBookCollection = (props) => {
             <h1 className="header">Buutti Book Collection</h1>
             <BookList />
             <BookForm selectedBook={selectedBook} actions={actions} />
+            <ToastContainer />
         </div>
     )
 }

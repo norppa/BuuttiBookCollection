@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from 'react'
+import { ToastContainer, toast } from 'react-toastify'
+
+import 'react-toastify/dist/ReactToastify.css'
 
 const BookForm = (props) => {
     const [title, setTitle] = useState('')
@@ -24,9 +27,20 @@ const BookForm = (props) => {
         }
     }
 
-    const addNewBook = () => props.actions.create({ title, author, description })
-    const updateBook = () => props.actions.update({ id: props.selectedBook.id, title, author, description })
-    const deleteBook = () => props.actions.delete({ id: props.selectedBook.id })
+    const addNewBook = () => {
+        if (!title || !author) return toast.warn('Title and Author fields are mandatory')
+        props.actions.create({ title, author, description })
+    }
+    const updateBook = () => {
+        if (!title || !author) return toast.warn('Title and Author fields are mandatory')        
+        props.actions.update({ id: props.selectedBook.id, title, author, description })
+    }
+    const deleteBook = () => {
+        if (window.confirm(`Are you sure you want to delete "${props.selectedBook.title}"`)) {
+            props.actions.delete({ id: props.selectedBook.id })
+        }
+        
+    }
 
     const Buttons = () => {
         if (isExisting) {
@@ -68,6 +82,7 @@ const BookForm = (props) => {
         </form>
 
         <Buttons />
+        <ToastContainer />
     </div>
 }
 
