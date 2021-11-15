@@ -4,14 +4,18 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon server.js"
+    "dev": "env NODE_ENV=development nodemon server.js",
+    "test": "env NODE_ENV=test mocha --exit"
   },
   "author": "Jari Haavisto",
   "license": "ISC",
   "dependencies": {
     "better-sqlite3": "^7.4.4",
+    "chai": "^4.3.4",
+    "chai-http": "^4.3.0",
     "config": "^3.3.6",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mocha": "^9.1.3"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"

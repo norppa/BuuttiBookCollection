@@ -53,3 +53,5 @@ server.delete('/books/:id', (req, res) => {
 })
 
 server.listen(PORT, () => console.log(`Buutti Book Collection running on port ${PORT}`))
+
+module.exports = server
