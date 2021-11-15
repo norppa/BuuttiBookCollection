@@ -6,7 +6,8 @@
   "scripts": {
     "start": "env NODE_ENV=production node server.js",
     "dev": "env NODE_ENV=development nodemon server.js",
-    "test": "env NODE_ENV=test mocha --exit"
+    "test": "env NODE_ENV=test mocha --exit",
+    "init": "npm install && cd frontend && npm install && npm run build"
   },
   "author": "Jari Haavisto",
   "license": "ISC",
